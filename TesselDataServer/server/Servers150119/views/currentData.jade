@@ -1,0 +1,21 @@
+//
+   Created by marc on 1/17/15.
+
+extends layout
+
+block pageTitle
+   .jumbotron
+      h1 This is the current data page!
+   h2 Here is the most recent last data in our database:
+   .well
+      h3 Temperature: !{temperature}
+      h5 Measured at: !{temperatureTime}
+   .well
+      h3 Humidity: !{humidity}
+      h5 Measured at: !{humidityTime}
+   .well
+      h3 Sound: !{sound}
+      h5 Measured at: !{soundTime}
+   .well
+      h3 Light: !{light}
+      h5 Measured at: !{lightTime}

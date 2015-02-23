@@ -1,0 +1,58 @@
+extends layout
+
+block pageTitle
+   h2 This is the graph for the light measurements:
+
+block pageContent
+   .well
+      script(src='http://www.google.com/jsapi')
+      //Need the period to say that it applies to everything from here down!
+      script.
+         google.load('visualization', '1', {'packages': ['annotatedtimeline']});
+
+         function drawChart() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'Date'); //Must have here since this is a time line.
+            console.log("Printing before the number light levels line");
+            data.addColumn('number', 'Light levels');
+            console.log("Printing right here!");
+            data.addColumn('string', 'title1');
+            console.log("Printing right afterwards!");
+            data.addColumn('string', 'text1');
+
+            var lightRows = !{dataToRender}; //Use the exclamation mark to not escape
+
+            console.log(lightRows);
+            for(var i = 0; i < lightRows.length; i++) {
+               lightRows[i][0] = new Date(lightRows[i][0]); //replace ISO string date with a Date object
+            }
+
+            data.addRows(lightRows);
+            var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+            chart.draw(data, {displayAnnotations: true}); //Draw it out!
+         }
+
+         google.setOnLoadCallback(drawChart);
+
+      style. //Style options for the text...
+         body {
+            padding: 50px;
+            font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+            color: #2e2e2e; /*Color of the big text*/
+         }
+         a {
+            color: #57524f; /*Color of the links reload, previous, next*/
+         }
+         #chart_div {
+            background-color: #aba6a2; /*What is shown before the graph is rendered*/
+            width: 1000px;
+            height: 240px;
+         }
+      body
+         h1 Terrestrial Data System
+         a(href='/graphs') Reset to default Zoom
+         //-Make this not reload but reset to default zoom
+         a(href='/graphs?direction=previous') &nbsp &nbsp&nbsp Previous &nbsp &nbsp &nbsp
+         a(href='/graphs?direction=next') Next
+         p
+         #chart_div
